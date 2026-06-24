@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router'
 import type { Project } from '../data/projects'
 
 defineProps<{ project: Project }>()
@@ -37,6 +38,12 @@ const categoryStyle: Record<string, { bg: string; color: string }> = {
     <div class="tech-tags">
       <span v-for="tech in project.techStack" :key="tech" class="tag">{{ tech }}</span>
     </div>
+    <RouterLink :to="`/project/${project.id}`" class="detail-link">
+      자세히 보기
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+      </svg>
+    </RouterLink>
   </article>
 </template>
 
@@ -142,6 +149,21 @@ const categoryStyle: Record<string, { bg: string; color: string }> = {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: auto;
+}
+
+.detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+  transition: all var(--transition);
+}
+
+.detail-link:hover {
+  gap: 10px;
+  color: var(--accent-secondary);
 }
 </style>
