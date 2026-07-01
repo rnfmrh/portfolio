@@ -2,6 +2,10 @@
 import { computed, ref, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { projects } from "../data/projects";
+import ChevronLeftIcon from "../assets/icons/chevron-left.svg";
+import ChevronRightIcon from "../assets/icons/chevron-right.svg";
+import FileTextIcon from "../assets/icons/file-text.svg";
+import ExternalLinkIcon from "../assets/icons/external-link.svg";
 
 const route = useRoute();
 const router = useRouter();
@@ -54,18 +58,7 @@ const categoryStyle: Record<string, { bg: string; color: string }> = {
   <div v-if="project" class="detail">
     <div class="container">
       <button class="back-btn" @click="router.push('/')">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="m15 18-6-6 6-6" />
-        </svg>
+        <ChevronLeftIcon width="20" height="20" />
         목록으로
       </button>
 
@@ -143,6 +136,23 @@ const categoryStyle: Record<string, { bg: string; color: string }> = {
         </div>
       </section>
 
+      <section v-if="project.detail.documents?.length" class="detail-section">
+        <h2 class="detail-section-title">Documents</h2>
+        <div class="documents-list">
+          <div v-for="(doc, i) in project.detail.documents" :key="i" class="document-item">
+            <div class="document-header">
+              <FileTextIcon width="20" height="20" />
+              <span class="document-title">{{ doc.title }}</span>
+              <a :href="doc.src" target="_blank" class="document-download">
+                <ExternalLinkIcon width="16" height="16" />
+                새 탭에서 열기
+              </a>
+            </div>
+            <iframe :src="doc.src" class="pdf-viewer" />
+          </div>
+        </div>
+      </section>
+
       <section v-if="project.detail.screenshots?.length" class="detail-section">
         <h2 class="detail-section-title">Screenshots</h2>
         <div class="screenshots-grid">
@@ -173,11 +183,11 @@ const categoryStyle: Record<string, { bg: string; color: string }> = {
       <div v-if="lightboxOpen" class="lightbox" @click="closeLightbox">
         <button class="lightbox-close" @click.stop="closeLightbox">&times;</button>
         <button v-if="screenshots.length > 1" class="lightbox-arrow lightbox-prev" @click.stop="prevImage">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+          <ChevronLeftIcon width="28" height="28" />
         </button>
         <img :src="lightboxSrc" class="lightbox-img" @click.stop />
         <button v-if="screenshots.length > 1" class="lightbox-arrow lightbox-next" @click.stop="nextImage">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+          <ChevronRightIcon width="28" height="28" />
         </button>
         <span v-if="screenshots.length > 1" class="lightbox-counter">{{ lightboxIndex + 1 }} / {{ screenshots.length }}</span>
       </div>
@@ -385,6 +395,59 @@ const categoryStyle: Record<string, { bg: string; color: string }> = {
   font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.7;
+}
+
+.documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.document-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.document-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.document-header svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.document-title {
+  font-size: 15px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.document-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.document-download:hover {
+  color: var(--accent);
+}
+
+.pdf-viewer {
+  width: 100%;
+  height: 80vh;
+  border: none;
+  background: #1a1a2e;
 }
 
 .screenshots-grid {

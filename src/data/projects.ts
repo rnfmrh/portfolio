@@ -4,6 +4,7 @@ export interface ProjectDetail {
   challenges?: { problem: string; solution: string }[]
   teamSize?: string
   screenshots?: string[]
+  documents?: { title: string; src: string }[]
 }
 
 export interface Project {
@@ -58,6 +59,11 @@ export const projects: Project[] = [
         },
       ],
       teamSize: 'Frontend 팀 협업',
+      screenshots: [
+        new URL('../resource/image/STPRO/01_DASHBOARD.png', import.meta.url).href,
+        new URL('../resource/image/STPRO/02_MENU1.png', import.meta.url).href,
+        new URL('../resource/image/STPRO/03_MENU2.png', import.meta.url).href,
+      ],
     },
   },
   {
@@ -65,7 +71,7 @@ export const projects: Project[] = [
     title: 'Sphere Parking',
     subtitle: '주차장 모니터링 시스템',
     category: '업무',
-    period: '2025',
+    period: '2025 ~',
     description:
       'SVG Canvas 기반으로 주차장의 실시간 상태를 시각화하는 모니터링 시스템을 개발했습니다. DB 데이터를 기반으로 주차장 탑뷰를 렌더링하고, 주차장 추가 및 평면도 관리 기능을 구현했습니다.',
     role: 'Frontend Developer',
@@ -97,6 +103,10 @@ export const projects: Project[] = [
         },
       ],
       teamSize: 'Frontend 담당',
+      screenshots: [
+        new URL('../resource/image/SphereParking/01_Mapsetting.png', import.meta.url).href,
+        new URL('../resource/image/SphereParking/02_Monitoring.png', import.meta.url).href,
+      ],
     },
   },
   {
@@ -230,6 +240,12 @@ export const projects: Project[] = [
         },
       ],
       teamSize: '1인 개발 (인턴)',
+      documents: [
+        {
+          title: '에셋번들 저작도구 메뉴얼',
+          src: new URL('../resource/image/AssetBundle/(에셋번들)저작도구 메뉴얼_20221017.pdf', import.meta.url).href,
+        },
+      ],
     },
   },
 ]
